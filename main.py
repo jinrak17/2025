@@ -2,11 +2,36 @@ import streamlit as st
 from datetime import datetime
 
 # 페이지 기본 설정
-st.set_page_config(page_title="운동 추천 앱", page_icon="🏃", layout="centered")
+st.set_page_config(page_title="기상별 운동 추천", page_icon="🏃", layout="centered")
+
+# CSS 스타일 적용
+st.markdown("""
+    <style>
+    body {
+        background-color: #f0f4f8;
+    }
+    .exercise-card {
+        background-color: #ffffff;
+        padding: 20px;
+        border-radius: 15px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        text-align: center;
+    }
+    .exercise-list {
+        background-color: #e6f7ff;
+        padding: 10px;
+        border-radius: 10px;
+        margin-top: 10px;
+    }
+    h1, h2, h3 {
+        color: #2c3e50;
+    }
+    </style>
+""", unsafe_allow_html=True)
 
 # 제목
-st.title("🏃 기상에 따른 실내·실외 운동 추천")
-st.write("오늘 날씨에 맞춰 운동을 추천해드립니다.")
+st.markdown("<h1 style='text-align: center;'>🏃 기상에 따른 실내·실외 운동 추천</h1>", unsafe_allow_html=True)
+st.write("오늘의 날씨에 맞춰 알맞은 운동을 추천해드립니다.")
 
 # 날씨 입력
 weather = st.selectbox(
@@ -53,12 +78,16 @@ def recommend_exercise(weather, temp):
 # 추천 결과
 result = recommend_exercise(weather, temperature)
 
-# 결과 표시
+# 카드 형태로 표시
+st.markdown("<div class='exercise-card'>", unsafe_allow_html=True)
 st.subheader(f"추천 유형: {result['type']}")
 st.image(result['image'], use_column_width=True)
-st.write("추천 운동:")
+st.markdown("<div class='exercise-list'>", unsafe_allow_html=True)
+st.write("**추천 운동 목록**")
 for ex in result['exercises']:
     st.markdown(f"- {ex}")
+st.markdown("</div>", unsafe_allow_html=True)
+st.markdown("</div>", unsafe_allow_html=True)
 
 # 오늘 날짜
 st.caption(f"추천일: {datetime.now().strftime('%Y-%m-%d')}")
